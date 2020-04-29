@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.ywl.elasticjob.autoconfig.ZookeeperAutoConfig,\
+ com.ywl.elasticjob.autoconfig.SimpleJobAutoConfig
