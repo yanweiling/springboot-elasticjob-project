@@ -10,10 +10,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface ElasticSimpleJob {
+public @interface ElasticDataflowJob {
     String jobName() default "";
     String cron() default "";
     int shardingTotalCount() default 1;
-    boolean overwrite() default false;//更改信息是否要覆盖到zookeeper上
+    boolean overwrite() default false;
+    boolean streamingProcess() default false;
     boolean isStart() default true;
 }

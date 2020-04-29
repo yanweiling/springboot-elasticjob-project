@@ -46,6 +46,7 @@ public class SimpleJobAutoConfig {
                 if(superInterface== SimpleJob.class){//说明这个类是simple任务
                     //获得注解
                     ElasticSimpleJob annotation=instance.getClass().getAnnotation(ElasticSimpleJob.class);
+                    if(!annotation.isStart())continue;
                     String jobName=annotation.jobName();
                     String cron=annotation.cron();
                     int shardingTotalCount=annotation.shardingTotalCount();
