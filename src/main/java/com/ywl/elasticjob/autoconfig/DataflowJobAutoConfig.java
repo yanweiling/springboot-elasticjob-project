@@ -1,10 +1,12 @@
 package com.ywl.elasticjob.autoconfig;
 
+import com.dangdang.ddframe.job.api.ElasticJob;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.config.dataflow.DataflowJobConfiguration;
 import com.dangdang.ddframe.job.lite.api.JobScheduler;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
+import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -59,7 +61,8 @@ public class DataflowJobAutoConfig {
                             .build();
 
                     //然后注册到shedule中
-                    new JobScheduler(zkCenter,ljc).init();
+//                    new JobScheduler(zkCenter,ljc).init();
+                    new SpringJobScheduler((ElasticJob) instance,zkCenter,ljc).init();
 
                 }
             }

@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
-@ElasticDataflowJob(jobName = "myDataflowJob",cron = "0/30 * * * * ?",shardingTotalCount = 1,overwrite = true,streamingProcess = true)
+@ElasticDataflowJob(jobName = "myDataflowJob",cron = "0/30 * * * * ?",shardingTotalCount = 1,overwrite = true,streamingProcess = true,isStart = false)
 @Slf4j
 public class MyDataflowJob implements DataflowJob<Integer> {
 

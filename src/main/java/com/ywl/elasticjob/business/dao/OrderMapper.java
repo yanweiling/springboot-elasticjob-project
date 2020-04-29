@@ -2,6 +2,8 @@ package com.ywl.elasticjob.business.dao;
 
 import com.ywl.elasticjob.business.model.Order;
 import com.ywl.elasticjob.business.model.OrderExample;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -93,4 +95,8 @@ public interface OrderMapper {
      * @mbg.generated Wed Apr 29 17:14:14 CST 2020
      */
     int updateByPrimaryKey(Order record);
+
+    List<Order> getOrder(Date time, int shardingTotalCount, int shardingItem);
+
+    int cancelOrder(Integer orderId, Date updateTime, int status, String updateUser, Date updateNow);
 }

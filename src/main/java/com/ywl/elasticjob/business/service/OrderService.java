@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -29,4 +31,12 @@ public class OrderService {
         return i;
     }
 
+
+    public List<Order> getOrder(Calendar now, int shardingTotalCount, int shardingItem) {
+        return orderMapper.getOrder(now.getTime(),shardingTotalCount,shardingItem);
+    }
+
+    public void cancelOrder(Integer orderId, Date updateTime, int status, String updateUser, Date updateNow) {
+        orderMapper.cancelOrder(orderId,updateTime,status,updateUser,updateNow);
+    }
 }
