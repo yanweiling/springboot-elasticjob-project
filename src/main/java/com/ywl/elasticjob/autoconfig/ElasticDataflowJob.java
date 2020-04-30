@@ -1,5 +1,7 @@
 package com.ywl.elasticjob.autoconfig;
 
+import com.dangdang.ddframe.job.lite.api.strategy.JobShardingStrategy;
+import com.dangdang.ddframe.job.lite.api.strategy.impl.AverageAllocationJobShardingStrategy;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.ElementType;
@@ -17,4 +19,6 @@ public @interface ElasticDataflowJob {
     boolean overwrite() default false;
     boolean streamingProcess() default false;
     boolean isStart() default true;
+    Class<? extends JobShardingStrategy> jobStrategy() default AverageAllocationJobShardingStrategy.class;
+    boolean jobEvent() default false;//是否时间追踪
 }

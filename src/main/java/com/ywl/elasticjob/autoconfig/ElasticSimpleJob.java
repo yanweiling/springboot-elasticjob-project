@@ -1,5 +1,7 @@
 package com.ywl.elasticjob.autoconfig;
 
+import com.dangdang.ddframe.job.lite.api.strategy.JobShardingStrategy;
+import com.dangdang.ddframe.job.lite.api.strategy.impl.AverageAllocationJobShardingStrategy;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.ElementType;
@@ -16,4 +18,6 @@ public @interface ElasticSimpleJob {
     int shardingTotalCount() default 1;
     boolean overwrite() default false;//更改信息是否要覆盖到zookeeper上
     boolean isStart() default true;
+    Class<? extends JobShardingStrategy> jobStrategy() default AverageAllocationJobShardingStrategy.class;
+    boolean jobEvent() default false;//是否时间追踪
 }

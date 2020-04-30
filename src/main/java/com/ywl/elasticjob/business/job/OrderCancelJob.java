@@ -18,7 +18,8 @@ import java.util.concurrent.Executors;
         jobName = "orderCancelJob",
         cron = "0/15 * * * * ?",
         shardingTotalCount = 2,
-        overwrite = true
+        overwrite = true,
+        isStart = false
 )
 @Slf4j
 public class OrderCancelJob  implements SimpleJob {

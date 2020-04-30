@@ -4,6 +4,8 @@ import com.dangdang.ddframe.job.api.ElasticJob;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
+import com.dangdang.ddframe.job.event.JobEventConfiguration;
+import com.dangdang.ddframe.job.event.rdb.JobEventRdbConfiguration;
 import com.dangdang.ddframe.job.lite.api.JobScheduler;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
@@ -18,6 +20,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 import java.util.Map;
 
 /**
@@ -35,6 +38,8 @@ public class SimpleJobAutoConfig {
     CoordinatorRegistryCenter registryCenter;
     @Autowired
     ApplicationContext context;
+    @Autowired
+    DataSource dataSource;
 
     @PostConstruct
     public void initSimpleJob(){
@@ -53,6 +58,8 @@ public class SimpleJobAutoConfig {
                     String cron=annotation.cron();
                     int shardingTotalCount=annotation.shardingTotalCount();
                     boolean overwrite=annotation.overwrite();
+                    Class jobStrategy=annotation.jobStrategy();
+                    boolean jobEvent=annotation.jobEvent();
                     //job核心配置
                     JobCoreConfiguration coreConfiguration=JobCoreConfiguration.newBuilder(jobName,cron,shardingTotalCount).build();
 
@@ -61,12 +68,19 @@ public class SimpleJobAutoConfig {
                     //job的根配置
                     LiteJobConfiguration liteJobConfiguration = LiteJobConfiguration
                 .newBuilder(jobConfiguration)
+                .jobShardingStrategyClass(jobStrategy.getCanonicalName())
                 .overwrite(overwrite)
                 .build();
 
                     //然后注册到shedule中
 //                new JobScheduler(registryCenter,liteJobConfiguration).init();
-                new SpringJobScheduler((ElasticJob) instance,registryCenter,liteJobConfiguration).init();
+                    if(jobEvent){
+                        JobEventConfiguration jec = new JobEventRdbConfiguration(dataSource);
+                        new SpringJobScheduler((ElasticJob) instance,registryCenter,liteJobConfiguration,jec).init();
+                    }else{
+                        new SpringJobScheduler((ElasticJob) instance,registryCenter,liteJobConfiguration).init();
+                    }
+
 
     }
 }
