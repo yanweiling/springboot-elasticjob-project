@@ -19,5 +19,8 @@ public @interface ElasticSimpleJob {
     boolean overwrite() default false;//更改信息是否要覆盖到zookeeper上
     boolean isStart() default true;
     Class<? extends JobShardingStrategy> jobStrategy() default AverageAllocationJobShardingStrategy.class;
+    /*esjob提供了任务事件追踪功能，通过做数据源配置，监听事件，会在任务执行的时候在指定的数据源创建俩张表，
+   job_execution_log， 和 job_status_trace_log
+   * */
     boolean jobEvent() default false;//是否时间追踪
 }
